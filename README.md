@@ -73,7 +73,7 @@ mtk64ebtは、親指操作トラックボールとロータリーエンコーダ
 * ベアリング : [ミネベアミスミ DDL-415ZZ](https://amzn.asia/d/fXq8wOI)
 * ネジ : [M1.4-0.3 6mm](https://amzn.asia/d/c3SDJWJ)
 
-###### ベアリング仕様トラックボールケースデータ
+##### ベアリング仕様トラックボールケースデータ
 [mtk64ebt_rev3_ballBearingCase_RH.3mf](casedata/rev3/mtk64ebt_rev3_ballBearingCase_RH.3mf)<br>[mtk64ebt_rev3_bodyBallBeringBottmn_RH.3mf](casedata/rev3/mtk64ebt_rev3_bodyBallBeringBottmn_RH.3mf)
 
 <img src="image/rev3/mtk64ebt_bearing_case_trace.jpeg" width="60%" style="border: 1px solid;"/><br>
@@ -121,28 +121,33 @@ T5ドライバー(メンテナンス用): [アネックス(ANEX) ドライバー
 
 ## 特徴
 
-標準的な６０％キーボード相当のキースイッチ＋フットスイッチ拡張で、一般的なキーボードからの移行コストを抑え、フルキーボード以上の操作性を実現します。
+#### 標準的な６０％キーボード相当のキースイッチ＋フットスイッチ拡張で、一般的なキーボードからの移行コストを抑え、フルキーボード以上の操作性を実現します
 
 [ZMK Studio](#zmk-studioでキーマッピング変更)を使用して、キーマッピングを簡単に変更することができます。
 
 <img src="image/zmk_studio_app.png" width="80%" style="border: 1px solid;"/><br>
 
-親指操作トラックボールを搭載しています。
-キー操作時のトラックボールへの干渉を避けるため、トラックボールの取り付け位置は極力低くオフセットされています。
+#### 親指操作トラックボールを搭載しています
+
+キー操作時のトラックボールへの干渉を避けるため、トラックボールの取り付け位置は極力低くオフセットされています
+
 トラックボールケース底面もフラット形状にして、全体の高さを抑えました。
 
 <img src="image/ball_case.png" width="80%" style="border: 1px solid;"/><br>
 
-PMW3610トラックボールセンサーは、センサー基板を小型化して取り付け角度を20度に設定しました。
+PMW3610トラックボールセンサーは、センサー基板を小型化して取り付け角度を20度に設定しました.
+
 テンティングなしでも快適にトラックボールを操作することができます。
 
 <img src="image/ball_sensor.png" width="80%" style="border: 1px solid;"/><br>
 
-Alps alpine製の低背エンコーダーが２つ搭載されています。30クリックの回転操作とプッシュスイッチが付いており、直感的な操作が可能です。
+#### Alps alpine製の低背エンコーダーが２つ搭載されています
+
+30クリックの回転操作とプッシュスイッチが付いており、直感的な操作が可能です。
 
 <img src="image/mtk64erp_encoder.jpg" width="80%" style="border: 1px solid;"/><br>
 
-Choc V1、[V2（固定ピンなしモデル）](https://ja.aliexpress.com/item/1005007361067887.html)、およびMX互換キースイッチを全てのキーに取り付けることが可能です。
+#### Choc V1、[V2（固定ピンなしモデル）](https://ja.aliexpress.com/item/1005007361067887.html)、およびMX互換キースイッチを全てのキーに取り付けることが可能です
 
 <img src="image/mtk64erp_switches.jpg" width="80%" style="border: 1px solid;"/><br>
 <a href="https://ja.aliexpress.com/item/1005007361067887.html"><img src="image/kailh_v2_deepsea.png" width="40%" style="border: 1px solid;"/></a>
@@ -154,7 +159,7 @@ Choc V1、[V2（固定ピンなしモデル）](https://ja.aliexpress.com/item/1
 
 <img src="image/rev3/5.mtk64ebt_lowpro.jpg" width="80%" style="border: 1px solid;"/><br>
 
-MCUに[Seeed Studio XIAO nRF52840](https://jp.seeedstudio.com/Seeed-XIAO-BLE-nRF52840-p-5201.html)を使用しており、無線接続の自作キーボードで課題となる技適対応もクリアしています。
+#### MCUに[Seeed Studio XIAO nRF52840](https://jp.seeedstudio.com/Seeed-XIAO-BLE-nRF52840-p-5201.html)を使用しており、無線接続の自作キーボードで課題となる技適対応もクリアしています
 
 技術基準適合証明番号：[211-220207](https://www.tele.soumu.go.jp/giteki/SearchServlet?pageID=jk01&NUM_TYPE=1&NUM=211-220207)
 
@@ -170,6 +175,8 @@ USB接続時には、ポーリングレートが向上し、よりスムーズ�
 
 <img src="image/cpi_test_usb.png" width="60%" style="border: 1px solid;"/><br>
 
+#### ドングルを利用可能です
+
 [Seeed Studio XIAO BLE](https://jp.seeedstudio.com/Seeed-XIAO-BLE-nRF52840-p-5201.html) もしくは [nrf54820搭載モジュール](https://www.switch-science.com/products/5531) をドングルとして使用することで、左右のキーボードは無線接続のまま、有線接続相当のポーリングレート（約110~220hz）で動作します。
 
 <img src="image/rev3/mtk64ebt_dongle.jpg" width="60%" style="border: 1px solid;"/><br>
@@ -177,6 +184,19 @@ USB接続時には、ポーリングレートが向上し、よりスムーズ�
 [mtk64ebt ドングル使用時ポーリングレート計測ムービー](https://www.youtube.com/embed/7DrP1KA7Fw4?list=PL_GJMtxZ-TgovRiROU55VTm1dNuUvYyni)
 
 <img src="image/rev3/mtk64ebt_pollingrate.png" width="60%" style="border: 1px solid;"/><br>
+
+#### ドングルにOLEDを取り付けて動作状況を表示できます
+
+[0.96インチ 128×64ドットOLED(SSD1306)](https://akizukidenshi.com/catalog/g/g112031/)のGND,VCC,SCL,SDA を[XiaoBLEの GND,3v3,D10,D9 ](https://files.seeedstudio.com/wiki/XIAO-BLE/pinout2.png)に結線してください。
+
+OLEDのピンヘッダ位置とXiaoBLEの端子位置を合わせてあるので、配線なしでピンヘッダで直付も可能です。
+
+注：リセットスイッチが押しづらいので工夫が必要です。
+
+<img src="image/rev3/mtk64ebt_dongle_display.jpg" width="60%" style="border: 1px solid;"/><br>
+<img src="image/rev3/mtk64ebt_dongle_display_2.jpg" width="60%" style="border: 1px solid;"/><br>
+
+
 
 右手側のLEDで現在のレイヤーが確認できるようになりました。
 ```
@@ -290,6 +310,16 @@ TRRS端子とAWG28~26以上（番号が小さい方が太いです）のケー�
 
 [Seeed Studio XIAO BLE](https://jp.seeedstudio.com/Seeed-XIAO-BLE-nRF52840-p-5201.html) もしくは [nrf54820搭載モジュール](https://www.switch-science.com/products/5531) をドングルとして使用するファームウェアです
 
+フットスイッチ無線化モジュールと兼用です。フットスイッチをドングルとして使用可能です。
+
+解凍したファイルの mtk64_FOOT rgbled_adapter-seeeduino_xiao_ble-zmk.uf2 をドングルに書き込んでください。
+
+#### 左右＋ドングルモジュールOLED用ファームウェア
+
+[mtk64ebt_Right_Left_Dongle_display.zip](firmware/mtk64ebt_Right_Left_Dongle_display.zip）
+
+解凍したファイルの mtk64_FOOT rgbled_adapter dongle_display-seeeduino_xiao_ble-zmk.uf2 をドングルに書き込んでください。
+
 ### ファームウェア書き込み
 
 1. 右手キーボード、左手手キーボード、フットスイッチ拡張モジュールのバッテリー駆動スイッチをOFFにする
@@ -348,6 +378,10 @@ https://github.com/mentako-ya/zmk-config-mtk64/tree/master
 #### 左右＋ドングルモジュール用ブランチ
 
 https://github.com/mentako-ya/zmk-config-mtk64/tree/pmw3610-bj-dongle
+
+#### 左右＋ドングルモジュールOLED用ブランチ
+
+https://github.com/mentako-ya/zmk-config-mtk64/tree/origin/pmw2610-bj-dongle-display
 
 
 ## ZMK Studioでキーマッピング変更
