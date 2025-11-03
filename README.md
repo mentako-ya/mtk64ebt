@@ -320,6 +320,12 @@ TRRS端子とAWG28~26以上（番号が小さい方が太いです）のケー�
 
 解凍したファイルの mtk64_FOOT rgbled_adapter dongle_display-seeeduino_xiao_ble-zmk.uf2 をドングルに書き込んでください。
 
+#### 左ボール右エンコーダー＋ドングルモジュールOLED用ファームウェア
+
+[mtk64ebt_Right_Left_Dongle_disp_leftball.zip](firmware/mtk64ebt_Right_Left_Dongle_disp_leftball.zip
+
+解凍したファイルの mtk64_DONGLE rgbled_adapter dongle_display-seeeduino_xiao_ble-zmk.uf2 をドングルに書き込んでください。
+
 ### ファームウェア書き込み
 
 1. 右手キーボード、左手手キーボード、フットスイッチ拡張モジュールのバッテリー駆動スイッチをOFFにする
@@ -381,7 +387,11 @@ https://github.com/mentako-ya/zmk-config-mtk64/tree/pmw3610-bj-dongle
 
 #### 左右＋ドングルモジュールOLED用ブランチ
 
-https://github.com/mentako-ya/zmk-config-mtk64/tree/origin/pmw2610-bj-dongle-display
+https://github.com/mentako-ya/zmk-config-mtk64/tree/pmw2610-bj-dongle-display
+
+#### 左ボール右エンコーダー＋ドングルモジュールOLED用ブランチ
+
+https://github.com/mentako-ya/zmk-config-mtk64/tree/pmw2610-bj-dongle-display_left-ball
 
 
 ## ZMK Studioでキーマッピング変更
