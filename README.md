@@ -196,9 +196,14 @@ OLEDのピンヘッダ位置とXiaoBLEの端子位置を合わせてあるので
 <img src="image/rev3/mtk64ebt_dongle_display.jpg" width="60%" style="border: 1px solid;"/><br>
 <img src="image/rev3/mtk64ebt_dongle_display_2.jpg" width="60%" style="border: 1px solid;"/><br>
 
+#### 本体基盤キットを使用したカスタマイズが可能です
+
+作例：左ボール 右エンコーダ ドングル OLED
+（ファームウェア、ケースデータは各セクションを参照）
+<img src="image/rev3/10.mtk64ebt_leftball.jpg" width="60%" style="border: 1px solid;"/><br>
 
 
-右手側のLEDで現在のレイヤーが確認できるようになりました。
+#### セントラルのLEDで現在のレイヤーが確認できるようになりました。
 ```
 レイヤー０ ⚫️Black（無点灯）
 レイヤー１ 🟣Magenta トラックボール精密モード
@@ -316,13 +321,13 @@ TRRS端子とAWG28~26以上（番号が小さい方が太いです）のケー�
 
 #### 左右＋ドングルモジュールOLED用ファームウェア
 
-[mtk64ebt_Right_Left_Dongle_display.zip](firmware/mtk64ebt_Right_Left_Dongle_display.zip）
+[mtk64ebt_Right_Left_Dongle_display.zip](firmware/mtk64ebt_Right_Left_Dongle_display.zip)
 
 解凍したファイルの mtk64_FOOT rgbled_adapter dongle_display-seeeduino_xiao_ble-zmk.uf2 をドングルに書き込んでください。
 
 #### 左ボール右エンコーダー＋ドングルモジュールOLED用ファームウェア
 
-[mtk64ebt_Right_Left_Dongle_disp_leftball.zip](firmware/mtk64ebt_Right_Left_Dongle_disp_leftball.zip
+[mtk64ebt_Right_Left_Dongle_disp_leftball.zip](firmware/mtk64ebt_Right_Left_Dongle_disp_leftball.zip)
 
 解凍したファイルの mtk64_DONGLE rgbled_adapter dongle_display-seeeduino_xiao_ble-zmk.uf2 をドングルに書き込んでください。
 
