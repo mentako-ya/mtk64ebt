@@ -556,25 +556,19 @@ ZMK Studioを使用することで、ファームウェア書き換えなしで�
 
 フォークしたソースの設定を修正してトラックボールセンサーの感度、自動マウスレイヤーに切り替わるまでの移動距離などを設定可能です。
 
-https://github.com/mentako-ya/zmk-config-mtk64/blob/master/config/boards/shields/mtk64/mtk64_R.conf#L12-L34
+https://github.com/mentako-ya/zmk-config-mtk64/blob/master/config/boards/shields/mtk64/mtk64_R.conf#L17C1-L67
 
-```
-    CONFIG_PMW3610=y
-    CONFIG_PMW3610_CPI=1000
-    CONFIG_PMW3610_CPI_DIVIDOR=1
-    CONFIG_PMW3610_ORIENTATION_90=y
-    CONFIG_PMW3610_SNIPE_CPI=800
-    CONFIG_PMW3610_SNIPE_CPI_DIVIDOR=4
-    CONFIG_PMW3610_SCROLL_TICK=16
-    CONFIG_PMW3610_INVERT_X=y
-    CONFIG_PMW3610_INVERT_SCROLL_X=n
-    CONFIG_PMW3610_RUN_DOWNSHIFT_TIME_MS=3264
-    CONFIG_PMW3610_POLLING_RATE_250=y
-    CONFIG_PMW3610_AUTOMOUSE_TIMEOUT_MS=700
-    CONFIG_PMW3610_AUTOMOUSE_THRESHOLD=10
-    CONFIG_PMW3610_SMART_ALGORITHM=y
-```
 
 # ケースデータ
 
 [ケースデータ ダウンロード](casedata/)
+
+[mkt64ebt rev1ケース](https://github.com/mentako-ya/mtk64ebt/tree/main/casedata/rev1)
+
+[mkt64ebt rev2ケース](https://github.com/mentako-ya/mtk64ebt/tree/main/casedata/rev2)
+
+[mkt64ebt rev3ケース](https://github.com/mentako-ya/mtk64ebt/tree/main/casedata/rev3)
+
+[XiaoBleドングルケース](https://github.com/mentako-ya/mtk64ebt/blob/main/casedata/XiaoBle/XiaoBleDongle.3mf)
+
+[XiaoBleドングル+OLEDケース](https://github.com/mentako-ya/mtk64ebt/blob/main/casedata/XiaoBleDongleOLED/XiaoBleDongleOLED.3mf)
