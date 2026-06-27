@@ -4,6 +4,9 @@
 # Ignore unzipped firmware directories (keep the .zip files)
 firmware/*/
 
+# Ignore temporary buildguide media directory
+buildgide/
+
 # OS generated files
 .DS_Store
 Thumbs.db
