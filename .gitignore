@@ -1,0 +1,9 @@
+# Ignore work directories
+**/work/
+
+# Ignore unzipped firmware directories (keep the .zip files)
+firmware/*/
+
+# OS generated files
+.DS_Store
+Thumbs.db
