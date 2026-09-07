@@ -29,31 +29,21 @@
     - [フットスイッチ拡張キット](#フットスイッチ拡張キット)
     - [フットスイッチ無線化モジュール](#フットスイッチ無線化モジュール)
 - [ファームウェア](#ファームウェア)
-    - [左右構成用ファームウェア](#左右構成用ファームウェア)
-    - [左右＋フットスイッチ無線化モジュール用ファームウェア](#左右フットスイッチ無線化モジュール用ファームウェア)
-    - [左右＋ドングルモジュール用ファームウェア](#左右ドングルモジュール用ファームウェア)
-        - [左右＋ドングルモジュールOLED用ファームウェア](#左右ドングルモジュールoled用ファームウェア)
-        - [左右＋ドングルモジュールOLED＋フットスイッチ用ファームウェア](#左右ドングルモジュールoledフットスイッチ用ファームウェア)
-        - [左ボール右エンコーダー＋ドングルモジュールOLED用ファームウェア](#左ボール右エンコーダードングルモジュールoled用ファームウェア)
-    - [左右＋ドングルモジュール(RAYTAC-MDBT50Q)用ファームウェア](#左右ドングルモジュールraytac-mdbt50q用ファームウェア)
-    - [ファームウェア書き込み](#ファームウェア書き込み)
-- [各種ブランチについて](#各種ブランチについて)
-    - [左右構成用ファームウェアブランチ](#左右構成用ファームウェアブランチ)
-    - [左右＋フットスイッチ無線化モジュール用ブランチ](#左右フットスイッチ無線化モジュール用ブランチ)
-    - [左右＋ドングルモジュール用ブランチ](#左右ドングルモジュール用ブランチ)
-    - [左右＋ドングルモジュールOLED用ブランチ](#左右ドングルモジュールoled用ブランチ)
-    - [左右＋ドングルモジュールOLED＋フットスイッチ無線化モジュール用ブランチ](#左右ドングルモジュールoledフットスイッチ無線化モジュール用ブランチ)
-    - [左ボール右エンコーダー＋ドングルモジュールOLED用ブランチ](#左ボール右エンコーダードングルモジュールoled用ブランチ)
-    - [左右＋ドングルモジュール(MDBT50Q-RX)用ブランチ](#左右ドングルモジュールmdbt50q-rx用ブランチ)
+    - [Rev4 と Rev3 以前の違い](#rev4-と-rev3-以前の違い)
+    - [Rev4用ファームウェア一覧（main）](#rev4用ファームウェア一覧main)
+    - [Rev3用ファームウェアについて](#rev3用ファームウェアについて)
+    - [ファームウェア書き込み手順](#ファームウェア書き込み手順)
+- [ファームウェアのブランチ構成について](#ファームウェアのブランチ構成について)
 - [キーマッピング変更](#キーマッピング変更)
     - [ZMK Studioでキーマッピング変更](#zmk-studioでキーマッピング変更)
         - [ブラウザ版 ZMK Studio](#ブラウザ版-zmk-studio)
         - [アプリ版 ZMK Studio](#アプリ版-zmk-studio)
     - [KeymapEditorでキーマッピング変更](#keymapeditorでキーマッピング変更)
 - [トラックボール設定](#トラックボール設定)
+    - [CPI（感度）動的変更機能 (Rev4)](#cpi感度動的変更機能-rev4)
     - [トラックボール設定変更](#トラックボール設定変更)
-        - [レイヤー設定変更](#レイヤー設定変更)
-        - [トラックボール設定値調整](#トラックボール設定値調整)
+        - [自動マウスレイヤー（Layer 6）の設定変更](#自動マウスレイヤーlayer-6の設定変更)
+        - [トラックボール感度（CPI）の初期値調整](#トラックボール感度cpiの初期値調整)
 - [ケースデータ](#ケースデータ)
 
 # mtk64ebt
@@ -115,9 +105,10 @@ T5ドライバー(メンテナンス用): [アネックス(ANEX) ドライバー
 
 <img src="image/ball_case.png" width="80%" style="border: 1px solid;"/><br>
 
-PMW3610トラックボールセンサーは、センサー基板を小型化して取り付け角度を20度に設定しました。
+トラックボールセンサーには超小型・超低消費電力の **PixArt PAW3222**（Rev4）を採用し、センサー基板を小型化して取り付け角度を20度に設定しました。（※Rev3はPMW3610搭載）
 
 テンティングなしでも快適にトラックボールを操作することができます。
+また、Rev4ではキー操作によるリアルタイムなCPI動的調整（16段階・不揮発性メモリ保存）に対応しています。
 
 <img src="image/ball_sensor.png" width="80%" style="border: 1px solid;"/><br>
 
@@ -190,7 +181,7 @@ USB接続時には、ポーリングレートが向上し、よりスムーズ�
 
 ### ドングル対応
 
-[Seeed Studio XIAO BLE](https://jp.seeedstudio.com/Seeed-XIAO-BLE-nRF52840-p-5201.html) もしくは [RAYTAC-MDBT50Q-RX](https://www.switch-science.com/products/5531) をドングルとして使用することで、左右のキーボードは無線接続のまま、有線接続相当のポーリングレート（約110~220hz）で動作します。
+[Seeed Studio XIAO BLE](https://jp.seeedstudio.com/Seeed-XIAO-BLE-nRF52840-p-5201.html) をドングルとして使用することで、左右のキーボードは完全無線のまま、Rev4では **超低遅延1000Hz (1ms) ESB通信** で動作します。トラックボールの追従性が飛躍的に向上し、高リフレッシュレート環境でも滑らかな操作が可能です。（※Rev3では約110~220Hz動作）
 
 <img src="image/rev3/mtk64ebt_dongle.jpg" width="60%" style="border: 1px solid;"/><br>
 
@@ -323,135 +314,101 @@ TRRS端子とAWG28~26以上（番号が小さい方が太いです）のケー�
 
 ## ファームウェア
 
-### 左右構成用ファームウェア
-[mtk64ebt_Right_Left.zip](https://github.com/mentako-ya/zmk-config-mtk64/releases/download/latest-right_left/mtk64ebt_Right_Left.zip)
+### Rev4 と Rev3 以前の違い
+
+| 比較項目 | Rev4（最新） | Rev3 以前 |
+| :--- | :--- | :--- |
+| **トラックボールセンサー** | **PAW3222** にアップデート | 従来センサー |
+| **ドングル通信プロトコル** | **Nordic ESB** を採用<br>ペリフェラル $\to$ ドングル間を超低遅延通信（最大 1000Hz） | BLE (Bluetooth Low Energy) 通信 |
+
+* **トラックボールセンサーの刷新**: トラックボールセンサーが **PAW3222** にアップデートされ、高精度な操作とリアルタイム CPI 変更に対応しました。
+* **超低遅延 ESB 通信（ドングル構成）**: ドングル使用時に、ペリフェラル（左右手・フットスイッチ）からドングル間の無線通信に **Nordic ESB (Enhanced ShockBurst)** を使用し、最大 1000Hz (1ms) の超低遅延レスポンスを実現しています。
 
 > [!IMPORTANT]
-> フットスイッチ無線化モジュールを使用しない場合、こちらのファームウェアを使用してください。
-> フットスイッチ無線化モジュールとの通信待ちで動作が遅くなる場合があります。
+> センサーや通信仕様の変更に伴い、**Rev4 と Rev3 以前でファームウェアの互換性はありません**。
+> mtk64ebt Rev3 以前のキーボードをお使いの場合は、本リポジトリの [`firmware/rev3/`](firmware/rev3/) ディレクトリ、または各 `_rev3` ブランチ（例: [right_left_rev3 ブランチ](https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_rev3#readme)）のファームウェアをご使用ください。
 
-### 左右＋フットスイッチ無線化モジュール用ファームウェア
-[mtk64ebt_Right_Left_Foot.zip](https://github.com/mentako-ya/zmk-config-mtk64/releases/download/latest-right_left_foot/mtk64ebt_Right_Left_Foot.zip)
+---
 
-### 左右＋ドングルモジュール用ファームウェア
-[mtk64ebt_Right_Left_Dongle.zip](https://github.com/mentako-ya/zmk-config-mtk64/releases/download/latest-right_left_dongle/mtk64ebt_Right_Left_Dongle.zip)
+### Rev4用ファームウェア一覧
 
-[Seeed Studio XIAO BLE](https://jp.seeedstudio.com/Seeed-XIAO-BLE-nRF52840-p-5201.html) もしくは [nRF52840搭載モジュール](https://www.switch-science.com/products/5531) をドングルとして使用するファームウェアです
+本リポジトリでは、接続方式に応じてファームウェアを分離・最適化して提供しています。
 
-フットスイッチ無線化モジュールと兼用です。フットスイッチをドングルとして使用可能です。
+#### 1. Bluetooth 接続（BLE Split / ドングル不要）構成【デフォルトブランチ: [`right_left_rev4`](https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_rev4)】
 
-解凍したファイルの mtk64_FOOT rgbled_adapter-seeeduino_xiao_ble-zmk.uf2 をドングルに書き込んでください。
+ドングルを使わず、右手（Central）と PC を Bluetooth でペアリングし、左手・フットスイッチとも安定した BLE Split 通信を行う標準構成です。
+本リポジトリの [`firmware/rev4/`](firmware/rev4/) ディレクトリより最新版をダウンロードいただけます。
 
-#### 左右＋ドングルモジュールOLED用ファームウェア
+| No | 構成名 | パッケージ名 (ZIP) | 含まれるファームウェア (.uf2) |
+| :--- | :--- | :--- | :--- |
+| 1 | **左右構成** | [mtk64ebt_Right_Left.zip](firmware/rev4/mtk64ebt_Right_Left.zip) | `mtk64_R.uf2`, `mtk64_L.uf2`, `settings_reset.uf2` |
+| 2 | **左右＋フットスイッチ** | [mtk64ebt_Right_Left_Foot.zip](firmware/rev4/mtk64ebt_Right_Left_Foot.zip) | `mtk64_R.uf2`, `mtk64_L.uf2`, `mtk64_FOOT.uf2`, `settings_reset.uf2` |
 
-[mtk64ebt_Right_Left_Dongle_display.zip](https://github.com/mentako-ya/zmk-config-mtk64/releases/download/latest-right_left_dongle-display/mtk64ebt_Right_Left_Dongle_display.zip)
+> [!TIP]
+> 直接接続用のファームウェアビルドやカスタマイズは、[zmk-config-mtk64](https://github.com/mentako-ya/zmk-config-mtk64) のデフォルトブランチ **[`right_left_rev4`](https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_rev4)** をご使用ください。
 
-解凍したファイルの mtk64_FOOT rgbled_adapter dongle_display-seeeduino_xiao_ble-zmk.uf2 をドングルに書き込んでください。
-#### 左右＋ドングルモジュールOLED＋フットスイッチ用ファームウェア
+---
 
-[mtk64ebt_Right_Left_Dongle_disp_foot.zip](https://github.com/mentako-ya/zmk-config-mtk64/releases/download/latest-right_left_dongle-display_foot/mtk64ebt_Right_Left_Dongle_disp_foot.zip)
+#### 2. ドングル接続（1000Hz ESB超低遅延）構成【ブランチ: [`right_left_dongle_rev4`](https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_dongle_rev4)】
 
-解凍したファイルの mtk64_DONGLE rgbled_adapter dongle_display-seeeduino_xiao_ble-zmk.uf2 をドングルに書き込んでください。
+専用 USB ドングルを Central 親機とし、左右手・フットスイッチを 1000Hz ポーリングの超低遅延 Nordic ESB プロトコルで通信させるハイパフォーマンス構成です。
+ファームウェアは [zmk-config-mtk64 Releases](https://github.com/mentako-ya/zmk-config-mtk64/releases) よりダウンロードいただけます。
 
-解凍したファイルの mtk64_FOOT rgbled_adapter dongle_display-seeeduino_xiao_ble-zmk.uf2 をフットスイッチ無線化モジュールに書き込んでください。
+| No | 構成名 | パッケージ名 (ZIP) | 含まれるファームウェア (.uf2) |
+| :--- | :--- | :--- | :--- |
+| 1 | **左右＋ドングルOLED＋フット** | `mtk64ebt_Right_Left_Dongle_disp_foot.zip` | `mtk64_DONGLE_display.uf2`, `mtk64_R_dongle.uf2`, `mtk64_L_dongle.uf2`, `mtk64_FOOT_dongle.uf2`, `settings_reset.uf2` |
+| 2 | **左右＋ドングルOLED** | `mtk64ebt_Right_Left_Dongle_display.zip` | `mtk64_DONGLE_display.uf2`, `mtk64_R_dongle.uf2`, `mtk64_L_dongle.uf2`, `settings_reset.uf2` |
+| 3 | **左右＋ドングル（画面なし）** | `mtk64ebt_Right_Left_Dongle.zip` | `mtk64_DONGLE.uf2`, `mtk64_R_dongle.uf2`, `mtk64_L_dongle.uf2`, `settings_reset.uf2` |
+| 4 | **左ボール右エンコーダー＋ドングルOLED** | `mtk64ebt_Right_Left_Dongle_disp_leftball.zip` | `mtk64_DONGLE_display.uf2`, `mtk64_L_leftball.uf2`, `mtk64_R_leftball.uf2`, `settings_reset.uf2` |
 
-#### 左ボール右エンコーダー
+> [!TIP]
+> ドングル構成のファームウェアビルドやカスタマイズは、[zmk-config-mtk64](https://github.com/mentako-ya/zmk-config-mtk64) の **[`right_left_dongle_rev4`](https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_dongle_rev4)** ブランチをご使用ください。
 
-[mtk64ebt_Right_Left_leftball.zip](https://github.com/mentako-ya/zmk-config-mtk64/releases/download/latest-right_left_left-ball/mtk64ebt_Right_Left_leftball.zip)
+### Rev3用ファームウェアについて
 
-#### 左ボール右エンコーダー＋ドングルモジュールOLED用ファームウェア
+> [!NOTE]
+> mtk64ebt Rev3用ファームウェアは、本リポジトリの [`firmware/rev3/`](firmware/rev3/) ディレクトリ、または [rev3 ブランチ](https://github.com/mentako-ya/mtk64ebt/tree/rev3#readme) を参照してください。
 
-[mtk64ebt_Right_Left_Dongle_disp_leftball.zip](https://github.com/mentako-ya/zmk-config-mtk64/releases/download/latest-right_left_dongle-display_left-ball/mtk64ebt_Right_Left_Dongle_disp_leftball.zip)
-
-解凍したファイルの mtk64_DONGLE rgbled_adapter dongle_display-seeeduino_xiao_ble-zmk.uf2 をドングルに書き込んでください。
-
-### 左右＋ドングルモジュール(RAYTAC-MDBT50Q)用ファームウェア
-
-[mtk64ebt_Right_Left_Dongle-mdbt50q_rx.zip](https://github.com/mentako-ya/zmk-config-mtk64/releases/download/latest-right_left_dongle-mdbt50q_rx/mtk64ebt_Right_Left_Dongle-mdbt50q_rx.zip)
-
-[RAYTAC-MDBT50Q-RX](https://www.switch-science.com/products/5531) をドングルとして使用するファームウェアです。
-
-解凍したファイルの `mtk64_DONGLE-mdbt50q_rx-zmk.uf2` をドングルに書き込んでください。
-
-### ファームウェア書き込み
+### ファームウェア書き込み手順
 
 1. 右手キーボード、左手キーボード、フットスイッチ拡張モジュールのバッテリー駆動スイッチをOFFにする
 
 > [!IMPORTANT]
-> バッテリーから給電された状態ではファームウェア書き込み後のリセットが正しく行われません
+> バッテリーから給電された状態ではファームウェア書き込み後のリセットが正しく行われません。
 
-1. 右手キーボードをPCにUSB接続してリセットボタンを短く2回押下
+1. **右手キーボード書き込み**:
+   * 右手キーボードをPCにUSB接続して、基板上のリセットボタンを短く2回押下（ダブルクリック）。
+   * 認識されたリムーバブルディスク ”XIAO-SENSE" に `settings_reset.uf2` をドラッグ＆ドロップ（自動再起動）。
+   * 再度リセットボタンを短く2回押下し、”XIAO-SENSE" に対応する右手ファームウェア（直接接続なら `mtk64_R.uf2` または `mtk64_R_foot.uf2`、ドングル構成なら `mtk64_R_dongle.uf2`）をドロップ。
 
-1. 認識された”XIAO-SENSE"に settings_reset-seeeduino_xiao_ble-zmk.uf2 をドロップ
+1. **左手キーボード書き込み**:
+   * 左手キーボードをPCにUSB接続して、リセットボタンを短く2回押下。
+   * ”XIAO-SENSE" に `settings_reset.uf2` をドロップ。
+   * 再度リセットボタンを短く2回押下し、各ZIPパッケージに含まれる左手用ファームウェア（直接接続なら `mtk64_L.uf2`、ドングル構成なら `mtk64_L_dongle.uf2` / 左ボールなら `mtk64_L_leftball.uf2`）をドロップ。
 
-1. 再度リセットボタンを短く2回押下
+1. **ドングル / フットスイッチ書き込み（使用時）**:
+   * **ドングルモジュール**: PCにUSB接続してリセットボタンを短く2回押下し、`mtk64_DONGLE_display.uf2`（画面なしは `mtk64_DONGLE.uf2`）をドロップ。
+   * **フットスイッチ無線化モジュール**: PCにUSB接続してリセットボタンを短く2回押下し、`settings_reset.uf2` を書き込んだ後、対応するファームウェア（直接接続なら `mtk64_FOOT.uf2`、ドングル構成なら `mtk64_FOOT_dongle.uf2`）をドロップ。
 
-1. 認識された”XIAO-SENSE"に mtk64_R rgbled_adapter-seeeduino_xiao_ble-zmk.uf2 をドロップ
+1. **接続確認**:
+   * 右手キーボード（またはドングル）をPCにUSB接続し、左手キーボードとフットスイッチ拡張モジュールはバッテリー駆動スイッチをONにして給電します。
+   * 各モジュールのリセットスイッチを1回押下し、USB端子横のLEDで接続状態を確認します。
+   * 右手（またはドングル）のLED: PCとの接続状態を表す（接続中🔵、オープン/アドバタイズ🟡、切断中🔴）。
+   * 左手・フットスイッチのLED: セントラルとのペアリング状態を表す（接続中🔵、切断中🔴）。
 
-1. 左手キーボードをPCにUSB接続してリセットボタンを短く2回押下
+LEDの色と接続状態についての詳細は [zmk-rgbled-widget](https://github.com/mentako-ya/zmk-rgbled-widget/blob/main/README.md) を参照してください。
 
-1. 認識された”XIAO-SENSE"にsettings_reset-seeeduino_xiao_ble-zmk.uf2をドロップ
+## ファームウェアのブランチ構成について
 
-1. 再度リセットボタンを短く2回押下
+[zmk-config-mtk64](https://github.com/mentako-ya/zmk-config-mtk64) リポジトリでは、接続方式に応じてブランチを分離して最適化・ビルドしています。
 
-1. 認識された”XIAO-SENSE"に mtk64_L rgbled_adapter-seeeduino_xiao_ble-zmk.uf2 をドロップ
-
-1. フットスイッチ無線化モジュールをPCにUSB接続してリセットボタンを短く2回押下
-
-1. 認識された”XIAO-SENSE"にsettings_reset-seeeduino_xiao_ble-zmk.uf2をドロップ
-
-1. 再度リセットボタンを短く2回押下
-
-1. 認識された”XIAO-SENSE"に mtk64_FOOT rgbled_adapter-seeeduino_xiao_ble-zmk.uf2 をドロップ
-
-1. 右手キーボードをPCにUSB接続、左手キーボードとフットスイッチ拡張モジュールはバッテリー駆動スイッチをONにして給電する
-
-1. 各モジュールのリセットスイッチを１回押下、各モジュール間の接続状態をUSB端子横のLEDで確認
-
-- 右手のLEDはPCとのBluetooth接続状態を表す。
-接続中🔵、オープン (アドバタイズ)🟡、切断中🔴 が点滅
-
-- 左手とフットスイッチ無線化モジュールのLEDは、右手（セントラル）とのペアリング状態を表す。
-接続の場合は🔵、切断の場合は🔴が点滅
-
-LEDの色と接続状態についての詳細は[こちら](https://github.com/mentako-ya/zmk-rgbled-widget/blob/main/README.md)
-
-## 各種ブランチについて
-
-https://github.com/mentako-ya/zmk-config-mtk64
-
-### 左右構成用ファームウェアブランチ
-
-https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left
-
-### 左右＋フットスイッチ無線化モジュール用ブランチ
-
-https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_foot
-
-### 左右＋ドングルモジュール用ブランチ
-
-https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_dongle
-
-### 左右＋ドングルモジュールOLED用ブランチ
-
-https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_dongle-display
-
-### 左右＋ドングルモジュールOLED＋フットスイッチ無線化モジュール用ブランチ
-
-https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_dongle-display_foot
-
-### 左ボール右エンコーダーブランチ
-
-https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_left-ball
-
-
-### 左ボール右エンコーダー＋ドングルモジュールOLED用ブランチ
-
-https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_dongle-display_left-ball
-
-### 左右＋ドングルモジュール(MDBT50Q-RX)用ブランチ
-
-https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_dongle-mdbt50q_rx
+* **Bluetooth 接続（BLE Split / ドングル不要）専用【デフォルトブランチ: [`right_left_rev4`](https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_rev4)】**:
+  * ドングル不要で PC と左右キーボードを Bluetooth ペアリングする標準構成です。外出先やノート PC で手軽に使用できます。
+* **ドングル接続（1000Hz ESB超低遅延）専用【ブランチ: [`right_left_dongle_rev4`](https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_dongle_rev4)】**:
+  * 専用 USB ドングルを親機とし、左右・フットスイッチを 1000Hz ポーリングの超低遅延 Nordic ESB プロトコルで通信させるハイパフォーマンス構成です。
+  * ドングル（OLEDあり/なし）、フットスイッチ併用、左手ボール構成など 4 つのドングル構成に対応しています。
+* **Rev3（旧版）**:
+  * 各構成ごとに `_rev3` サフィックスを付与したブランチ（例: [`right_left_rev3`](https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_rev3)）にて維持されています。
 
 ## キーマッピング変更
 
@@ -479,11 +436,7 @@ ZMK Studioを使用することで、ファームウェア書き換えなしで�
 
 <img src="image/keymap_editor/ke_001.png" width="60%" style="border: 1px solid;"/>
 
-2. 「Copy the master branch only」のチェックボックスを外してから、「Create fork」のボタンをクリック
-
-> [!CAUTION]
-> 「Copy the master branch only」のチェックボックスを外してください<br>
-> チェックをつけたままフォークすると、master以外のブランチがコピーされません
+2. 「Create fork」のボタンをクリックしてフォークを作成します
 
 <img src="image/keymap_editor/ke_002.png" width="60%" style="border: 1px solid;"/>
 
@@ -511,7 +464,7 @@ ZMK Studioを使用することで、ファームウェア書き換えなしで�
 
 <img src="image/keymap_editor/ke_008.png" width="60%" style="border: 1px solid;"/>
 
-9. キーマップエディター画面でフォークしたリポジトリとご自身の構成に対応するブランチを選択します。対応するブランチについては、[各種ブランチについて](#各種ブランチについて) を参照してください。
+9. キーマップエディター画面でフォークしたリポジトリと作業ブランチ（直接接続なら `right_left_rev4`、ドングル構成なら `right_left_dongle_rev4`）を選択します。
 
 <img src="image/keymap_editor/ke_009.png" width="60%" style="border: 1px solid;"/>
 
@@ -523,18 +476,19 @@ ZMK Studioを使用することで、ファームウェア書き換えなしで�
 
 <img src="image/keymap_editor/ke_011.png" width="60%" style="border: 1px solid;"/>
 
-12. フォークした自分のzmk-config-mtk64リポジトリをブラウザで開く -> Actionsメニュー　-> .github/workflows/build.yml選択 ->  「Run workflow」クリック-> Run workflow
+12. フォークした自分のzmk-config-mtk64リポジトリをブラウザで開く -> Actionsメニュー -> .github/workflows/build.yml選択 -> 「Run workflow」クリック -> Run workflow
+（またはローカルでコミットして `git push origin <作業ブランチ名>` すると自動的にビルドが開始されます）
 
 <img src="image/keymap_editor/ke_012.png" width="60%" style="border: 1px solid;"/>
 
-13. 実行完了後、「Merge Output Artifacts」を開く
+13. 実行完了後、フォーク先リポジトリの「Releases」（`latest-main`）または Actions 実行画面最下部の「Artifacts」から、ご自身の構成に対応するファームウェア ZIP をダウンロードします。
 
-<img src="image/keymap_editor/ke_013.png" width="60%" style="border: 1px solid;"/>
+14. [ファームウェア書き込み手順](#ファームウェア書き込み手順)に従って書き込みます。
 
-14. Artifact download URL:のリンクから、ビルドしたファームウェアをダウンロード
-<img src="image/keymap_editor/ke_014.png" width="60%" style="border: 1px solid;"/>
-
-15. [ファームウェア書き込み](#ファームウェア書き込み)の手順に従って書き込み
+#### 左ボール右エンコーダー構成のキーマップ対応について
+* ドングル構成用の **`right_left_dongle_rev4` ブランチ** では、全ドングル構成（通常ドングル、左ボール構成、フットスイッチ構成など）が一括ビルドされます。
+* `config/mtk64.keymap` の変更は、通常の右手ボール構成だけでなく左ボール構成（`mtk64ebt_Right_Left_Dongle_disp_leftball.zip` 等）にも自動的に反映されます。
+* 左ボール構成を使用する場合、左手でトラックボールを操作しながら右手でクリック操作を行えるよう標準マッピング（レイヤー1・2・6にマウスボタン配置）されています。左手側にクリックキーを配置したい場合も、`mtk64.keymap` の左手側キーにお好みのマウスキー（`&mkp MB1` 等）を割り当てるだけで自由に変更できます。
 
 
 
@@ -544,16 +498,34 @@ ZMK Studioを使用することで、ファームウェア書き換えなしで�
 
 * **Layer 0** は通常レイヤーです。これはデフォルトのレイヤーで、通常のキーボード操作が行われます。
 
-* **Layer 1** はマウスレイヤー（精密モード）です。このレイヤーでは、マウスの精密な操作が可能となります。細かい動きが必要な場合に使用します。
+* **Layer 1** はマウスレイヤー（精密モード）です。このレイヤーでは、マウスの精密な操作が可能となります。細かい動きが必要な場合に使用します。右手最右列には **`cpi_inc`**（感度UP）/ **`cpi_dec`**（感度DOWN）キーが配置されています。
 
-* **Layer 2** もマウスレイヤーですが、精密モードではありません。通常のマウス操作が行えます。
+* **Layer 2** もマウスレイヤーですが、精密モードではありません。通常のマウス操作が行えます。同様に右手最右列に **`cpi_inc`** / **`cpi_dec`** キーが配置されています。
 
 * **Layer 3** はスクロールレイヤーです。このレイヤーでは、スクロール操作が可能となります。ウェブページやドキュメントの閲覧時に便利です。
 
 * **Layer 4** と **Layer 5** は未使用のレイヤーです。これらのレイヤーには任意のキーコードを設定することができます。ユーザーの好みに応じてカスタマイズが可能です。
 
-* **Layer 6** は自動マウスレイヤーです。トラックボールの操作が一定距離に達すると、自動的にこのレイヤーに切り替わり、N,Mキーで左右クリック操作が可能になります。
-一定時間経過後レイヤーは元のレイヤーに戻ります。
+* **Layer 6** は自動マウスレイヤーです。トラックボールの操作が一定距離に達すると、自動的にこのレイヤーに切り替わり、N,Mキーで左右クリック操作が可能になります。一定時間経過後レイヤーは元のレイヤーに戻ります。
+
+### CPI（感度）動的変更機能 (Rev4)
+
+Rev4 では、ソースコードを再ビルドすることなく、**キーボードのキー操作だけでリアルタイムにトラックボールの感度（CPI）を変更可能** です。
+
+* **キー配置（デフォルトキーマップ）**:
+  * デフォルトのキーマップでは、**レイヤー1（精密モード）の右手キーボード右下** に配置されています。
+    * **`cpi_inc`**（感度UP）: 右手最右列・下から2段目
+    * **`cpi_dec`**（感度DOWN）: 右手最右列・最下段（右下端）
+  * ※レイヤー2（マウスモード）でも同様に右手キーボード右下に配置されています。
+* **操作方法**:
+  * **`cpi_inc` キー押下**: CPI が 1 ステップ増加（高速化）
+  * **`cpi_dec` キー押下**: CPI が 1 ステップ減少（低速化）
+* **16段階の調整範囲**:
+  `608` $\leftrightarrow$ `790` $\leftrightarrow$ `1003` $\leftrightarrow$ `1216` $\leftrightarrow$ `1428` $\leftrightarrow$ `1611` $\leftrightarrow$ `1824` $\leftrightarrow$ `2036` $\leftrightarrow$ `2249` $\leftrightarrow$ `2462` $\leftrightarrow$ `2827` $\leftrightarrow$ `3222` $\leftrightarrow$ `3617` $\leftrightarrow$ `4012` $\leftrightarrow$ `4408` $\leftrightarrow$ `4826` CPI
+* **不揮発性メモリ（NVS）への自動保存**:
+  変更した CPI 設定は自動的に内部ストレージに永続保存されるため、キーボードの電源を切ったりバッテリーを交換しても前回の感度設定がそのまま維持されます。
+* **ドングル OLED へのリアルタイム表示**:
+  OLED ディスプレイ付きドングルを使用している場合、現在の CPI 値（例: `CPI:1600`）が画面上にリアルタイム表示されます。
 
 ### トラックボール設定変更
 
@@ -567,43 +539,44 @@ ZMK Studioを使用することで、ファームウェア書き換えなしで�
 
 ビルドされたファームウェアをダウンロードしてキーボードに書き込み、変更したトラックボール設定でキーボードを使用できます。
 
-#### レイヤー設定変更
+#### 自動マウスレイヤー（Layer 6）の設定変更
 
-フォークしたソースの設定を修正する際には、以下のリンク先の設定ファイルを参照してください: [mtk64_trackball.dtsi](https://github.com/mentako-ya/zmk-config-mtk64/blob/HEAD/config/boards/shields/mtk64/mtk64_trackball.dtsi#L70-L90)。
+トラックボール操作時に自動的にマウスレイヤー（Layer 6）へ切り替わる動作は、[`config/mtk64.keymap`](https://github.com/mentako-ya/zmk-config-mtk64/blob/right_left_rev4/config/mtk64.keymap#L16-L18) で設定されています。
 
-```markdown
-    trackball_listener: trackball_listener {
-        compatible = "zmk,input-listener";
-        ...
-        snipe {
-            layers = <1>;
-            ...
-        };
-
-        scroll {
-            layers = <3>;
-            ...
-        };
-
-        input-processors = <&zip_temp_layer 6 5000>;
-    };
+```dts
+&mkp_input_listener {
+    input-processors = <&zip_temp_layer 6 5000>;
+};
 ```
 
-この設定では、トラックボールの各機能に対応するレイヤーが指定されています。
+* **第1引数 (`6`)**: 自動遷移先のマウスレイヤー番号（デフォルトは Layer 6）。
+* **第2引数 (`5000`)**: トラックボール操作を止めてから元のレイヤーに自動復帰するまでの時間（ミリ秒、`5000` = 5秒）。
 
-`snipe` 内の `layers` は精密操作用のレイヤー1、
+また、キー入力後にトラックボールが反応するまでのアイドル時間などは、[`config/boards/shields/mtk64/mtk64_trackball.dtsi`](https://github.com/mentako-ya/zmk-config-mtk64/blob/right_left_rev4/config/boards/shields/mtk64/mtk64_trackball.dtsi#L60-L65) で調整可能です：
 
-`scroll` 内の `layers` はスクロール操作用のレイヤー3、
+```dts
+zip_temp_layer: zip_temp_layer {
+    compatible = "zmk,input-processor-temp-layer";
+    #input-processor-cells = <2>;
+    require-prior-idle-ms = <500>;
+    excluded-positions = <43 44 45 46 47>; // MB4, MB5, MB1, MB2, MB3
+};
+```
 
-`zip_temp_layer` の最初の引数（`6`）は自動マウス操作用のレイヤー6に設定されています。
+* `require-prior-idle-ms = <500>;`: タイピング中の誤爆を防ぐため、キー入力後 500ms 経過してからトラックボールを操作した際に自動レイヤー切り替えが発動します。
+* `excluded-positions`: マウスボタン（MB1〜MB5）を押した際にタイマーがリセットされる除外キー位置です。
 
-もしこれらの機能切り替えを使用しない場合は、不要な設定を削除することができます。これにより、不要な機能が無効化されます。
+#### トラックボール感度（CPI）の初期値調整
 
-#### トラックボール設定値調整
+通常はキーボード右下の **`cpi_inc`** / **`cpi_dec`** キーで 16 段階にリアルタイム調整可能ですが、ファームウェア起動時のデフォルト初期値を変更したい場合は、[`config/boards/shields/mtk64/mtk64_trackball.dtsi`](https://github.com/mentako-ya/zmk-config-mtk64/blob/right_left_rev4/config/boards/shields/mtk64/mtk64_trackball.dtsi#L39) の `res-cpi` を編集します：
 
-フォークしたソースの設定を修正してトラックボールセンサーの感度、自動マウスレイヤーに切り替わるまでの移動距離などを設定可能です。
-
-https://github.com/mentako-ya/zmk-config-mtk64/blob/HEAD/config/boards/shields/mtk64/mtk64_R.conf#L17-L66
+```dts
+trackball: trackball@0 {
+    compatible = "pixart,paw32xx";
+    ...
+    res-cpi = <1558>; /* デフォルト初期CPI */
+};
+```
 
 
 ## ケースデータ
@@ -615,6 +588,8 @@ https://github.com/mentako-ya/zmk-config-mtk64/blob/HEAD/config/boards/shields/m
 [mtk64ebt rev2ケース](https://github.com/mentako-ya/mtk64ebt/tree/main/casedata/rev2)
 
 [mtk64ebt rev3ケース](https://github.com/mentako-ya/mtk64ebt/tree/main/casedata/rev3)
+
+[mtk64ebt rev4ケース](https://github.com/mentako-ya/mtk64ebt/tree/main/casedata/rev4)
 
 [XiaoBleドングルケース](https://github.com/mentako-ya/mtk64ebt/blob/main/casedata/XiaoBle/XiaoBleDongle.3mf)
 
