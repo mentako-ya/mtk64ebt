@@ -154,15 +154,22 @@ T5ドライバー(メンテナンス用): [アネックス(ANEX) ドライバー
 
 <img src="image/mtk64ebt_mcu.png" width="80%" style="border: 1px solid;"/><br>
 
-無線接続では、有線接続に比べてポーリングレートが低くなりますが、通常利用には問題なく使用することが可能です。（約70hz）
+光学式センサーに **PAW3222** を採用しており、Bluetooth（BLE）接続およびUSB接続のポーリングレート実測値と理論値は以下の通りです。
 
-<img src="image/cpi_test_bt.png" width="80%" style="border: 1px solid;"/><br>
+#### Bluetooth（BLE）接続時
+- **理論値**：最大約133Hz（BLE規格の最小接続インターバル 7.5ms 換算）
+- **実測値**：平均約109Hz / 最大130Hz
+- 一般的なオフィスワークや日常的なPC操作には十分滑らかに使用することが可能です。
 
-USB接続時には、ポーリングレートが向上し、よりスムーズに動作します。（約220hz）精密なトラックボール操作が求められる場面で効果的です。
+<img src="image/polling_rate_bluetooth.png" width="60%" style="border: 1px solid;"/><br>
 
-有線接続時も右手のみUSB接続となり、左手側は無線接続となるので、USBケーブル１本だけで接続となります。左右間接続用のTRRSケーブルは使用しません。
+#### USB（有線）接続時
+- **理論値**：最大1000Hz (1ms)
+- **実測値**：平均約979Hz / 最大984Hz
+- ゲーミングマウスと同等の極めて高いポーリングレートを発揮し、高リフレッシュレートモニター環境でも吸い付くような滑らかで精密なトラックボール操作が可能です。
+- 有線接続時もトラックボール搭載側（右手側等）のみUSB接続となり、反対側（左手側）は無線接続となるため、PCとの間はUSBケーブル1本のみで配線できます（左右間接続用のTRRSケーブルは使用しません）。
 
-<img src="image/cpi_test_usb.png" width="60%" style="border: 1px solid;"/><br>
+<img src="image/polling_rate_usb.png" width="60%" style="border: 1px solid;"/><br>
 
 ### フットスイッチ対応
 [市販のUSBフットスイッチ](https://amzn.asia/d/h7wMR24)の基板を付属のフットスイッチ拡張基板に差し替えて、mtk64の拡張無線フットスイッチとして使用可能です。
@@ -179,15 +186,18 @@ USB接続時には、ポーリングレートが向上し、よりスムーズ�
 
 <img src="image/zmk_studio_app.png" width="80%" style="border: 1px solid;"/><br>
 
-### ドングル対応
+### ESBを使用したドングル対応
 
-[Seeed Studio XIAO BLE](https://jp.seeedstudio.com/Seeed-XIAO-BLE-nRF52840-p-5201.html) をドングルとして使用することで、左右のキーボードは完全無線のまま、Rev4では **超低遅延1000Hz (1ms) ESB通信** で動作します。トラックボールの追従性が飛躍的に向上し、高リフレッシュレート環境でも滑らかな操作が可能です。（※Rev3では約110~220Hz動作）
+[Seeed Studio XIAO BLE](https://jp.seeedstudio.com/Seeed-XIAO-BLE-nRF52840-p-5201.html) を専用ドングルとして使用することで、左右のキーボードは完全無線のまま、Nordic独自の超高速ワイヤレスプロトコル **ESB (Enhanced ShockBurst)** による超低遅延通信を行います。
+
+完全ワイヤレスでありながら、USB直接接続と同等の **1000Hz (1ms)** に近いポーリングレートを実現し、トラックボールの追従性が飛躍的に向上します。（※Rev3ではBLEドングルによる約110~220Hz動作）
+
+- **理論値**：1000Hz (1ms)
+- **実測値**：平均約980Hz / 最大984Hz
 
 <img src="image/rev3/mtk64ebt_dongle.jpg" width="60%" style="border: 1px solid;"/><br>
 
-[mtk64ebt ドングル使用時ポーリングレート計測ムービー](https://www.youtube.com/embed/7DrP1KA7Fw4?list=PL_GJMtxZ-TgovRiROU55VTm1dNuUvYyni)
-
-<img src="image/rev3/mtk64ebt_pollingrate.png" width="60%" style="border: 1px solid;"/><br>
+<img src="image/polling_rate_dongle.png" width="60%" style="border: 1px solid;"/><br>
 
 #### ドングルにOLEDを取り付けて動作状況を表示できます
 
