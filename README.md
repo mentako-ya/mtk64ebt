@@ -200,6 +200,20 @@ OLEDのピンヘッダ位置とXiaoBLEの端子位置を合わせてあるので
 <img src="image/rev3/mtk64ebt_dongle_display.jpg" width="60%" style="border: 1px solid;"/><br>
 <img src="image/rev3/mtk64ebt_dongle_display_2.jpg" width="60%" style="border: 1px solid;"/><br>
 
+##### OLEDディスプレイ画面の表示内容
+
+<img src="image/DONGLE/oled_display_preview.png" width="65%" style="border: 1px solid;"/><br>
+
+| 領域 / アイコン | 表示内容 | 説明 |
+| :--- | :--- | :--- |
+| **左上 (出力状態)** | 🔌 USB / 📶 Bluetooth (1〜5) | 接続モード、選択中のBTプロファイル番号、接続状態（✓）を表示。現在選択されている出力の上部にバーが表示されます。 |
+| **右上 (バッテリー)** | 🔋 L: 80% / R: 90% | 左右ペリフェラルのバッテリー残量（%）と電池アイコンをリアルタイム表示。 |
+| **左中 (トラックボール)** | `CPI:1600`<br>`X:  +0`<br>`Y:  +0` | 現在のCPI解像度およびトラックボールのX/Y累積移動量をリアルタイム表示。 |
+| **右中 (マスコット)** | めんたこ | 打鍵速度に連動してアニメーション。 |
+| **左下 (モディファイア)** | `^` `⌥` `⌘` `⇧` | 現在押下中のモディファイアキー（Ctrl, Opt, Cmd, Shift）に下線（`_`）が表示されます。 |
+| **中下 (ポインティング機能)** | 🎱 (A) Automouse<br>↕️ Scroll反転 | **Automouse**: 有効時に下線（`_`）が表示されます。<br>**Scroll反転**: スクロール反転有効時に下線（`_`）が表示されます。 |
+| **右下 (レイヤー)** | `DEF`, `SNP`, `MSE` ... | 現在アクティブな最上位レイヤー名（`DEF`, `SNP`, `MSE`, `SCR`, `L4`, `L5`, `AML` 等）が右端に表示されます。 |
+
 ### LED表示
 
 #### セントラル側のLEDで現在のレイヤーが確認できます
