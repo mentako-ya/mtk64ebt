@@ -3,6 +3,10 @@
 
 # Ignore unzipped firmware directories (keep the .zip files)
 firmware/*/
+!firmware/rev3/
+!firmware/rev3/**
+!firmware/rev4/
+!firmware/rev4/**
 
 # Ignore temporary buildguide media directory
 buildgide/
