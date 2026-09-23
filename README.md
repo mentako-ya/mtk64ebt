@@ -29,9 +29,9 @@
     - [フットスイッチ拡張キット](#フットスイッチ拡張キット)
     - [フットスイッチ無線化モジュール](#フットスイッチ無線化モジュール)
 - [ファームウェア](#ファームウェア)
-    - [Rev4 と Rev3 以前の違い](#rev4-と-rev3-以前の違い)
-    - [Rev4用ファームウェア一覧（main）](#rev4用ファームウェア一覧main)
-    - [Rev3用ファームウェアについて](#rev3用ファームウェアについて)
+    - [Rev4 と Rev3 のハードウェア仕様比較](#rev4-と-rev3-のハードウェア仕様比較)
+    - [Rev4用ファームウェア一覧](#rev4用ファームウェア一覧)
+    - [Rev3用ファームウェア一覧](#rev3用ファームウェア一覧)
     - [ファームウェア書き込み手順](#ファームウェア書き込み手順)
 - [ファームウェアのブランチ構成について](#ファームウェアのブランチ構成について)
 - [キーマッピング変更](#キーマッピング変更)
@@ -40,7 +40,7 @@
         - [アプリ版 ZMK Studio](#アプリ版-zmk-studio)
     - [KeymapEditorでキーマッピング変更](#keymapeditorでキーマッピング変更)
 - [トラックボール設定](#トラックボール設定)
-    - [トラックボール機能のリアルタイム制御 (Rev4)](#トラックボール機能のリアルタイム制御-rev4)
+    - [トラックボール機能のリアルタイム制御 (Rev4 / Rev3)](#トラックボール機能のリアルタイム制御-rev4--rev3)
     - [トラックボール設定変更](#トラックボール設定変更)
         - [自動マウスレイヤー（Layer 6）の設定変更](#自動マウスレイヤーlayer-6の設定変更)
         - [トラックボール感度（CPI）の初期値調整](#トラックボール感度cpiの初期値調整)
@@ -361,19 +361,23 @@ TRRS端子とAWG28~26以上（番号が小さい方が太いです）のケー�
 
 ## ファームウェア
 
-### Rev4 と Rev3 以前の違い
+### Rev4 と Rev3 のハードウェア仕様比較
 
-| 比較項目 | Rev4（最新） | Rev3 以前 |
+Rev4 と Rev3 では、搭載されているトラックボールセンサーの型番および CPI の調整ステップ数が異なりますが、ファームウェア機能としてはどちらも最新の仕様（ESB 1000Hz 超低遅延通信、リアルタイム設定制御、ZMK Studio 完全対応、ドングル OLED 連携）を共通してサポートしています。
+
+| 比較項目 | Rev4（最新） | Rev3 |
 | :--- | :--- | :--- |
-| **トラックボールセンサー** | **PAW3222** にアップデート | 従来センサー |
-| **ドングル通信プロトコル** | **Nordic ESB** を採用<br>ペリフェラル $\to$ ドングル間を超低遅延通信（最大 1000Hz） | BLE (Bluetooth Low Energy) 通信 |
-
-* **トラックボールセンサーの刷新**: トラックボールセンサーが **PAW3222** にアップデートされ、高精度な操作とリアルタイム CPI 変更に対応しました。
-* **超低遅延 ESB 通信（ドングル構成）**: ドングル使用時に、ペリフェラル（左右手・フットスイッチ）からドングル間の無線通信に **Nordic ESB (Enhanced ShockBurst)** を使用し、最大 1000Hz (1ms) の超低遅延レスポンスを実現しています。
+| **トラックボールセンサー** | **PixArt PAW3222** | **PixArt PMW3610** |
+| **CPI 調整範囲** | **16段階**（608 〜 4826 CPI） | **15段階**（200 〜 3200 CPI） |
+| **PC / 親機間通信** | **Bluetooth (BLE Split)** または<br>**Nordic ESB (1000Hz 超低遅延)** | **Bluetooth (BLE Split)** または<br>**Nordic ESB (1000Hz 超低遅延)** |
+| **リアルタイム設定制御** | CPI感度調整 / Auto Mouse Layer / スクロール反転 | CPI感度調整 / Auto Mouse Layer / スクロール反転 |
+| **設定の不揮発性保存 (NVS)** | 対応（電源OFF・電池交換後も保持） | 対応（電源OFF・電池交換後も保持） |
+| **ZMK Studio** | 完全対応（リアルタイムキーマップ変更） | 完全対応（リアルタイムキーマップ変更） |
+| **ドングル OLED 連携** | CPI値 / AML状態 / スクロール反転 / 電池残量 | CPI値 / AML状態 / スクロール反転 / 電池残量 |
 
 > [!IMPORTANT]
-> センサーや通信仕様の変更に伴い、**Rev4 と Rev3 以前でファームウェアの互換性はありません**。
-> mtk64ebt Rev3 以前のキーボードをお使いの場合は、本リポジトリの [`firmware/rev3/`](firmware/rev3/) ディレクトリ、または各 `_rev3` ブランチ（例: [right_left_rev3 ブランチ](https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_rev3#readme)）のファームウェアをご使用ください。
+> 搭載されているトラックボールセンサー（PAW3222 と PMW3610）のドライバが異なるため、**Rev4 と Rev3 でファームウェアのバイナリ互換性はありません**。
+> お手持ちのキーボードのリビジョンに合致したファームウェアおよび対応ブランチをご使用ください。
 
 ---
 
@@ -414,10 +418,43 @@ TRRS端子とAWG28~26以上（番号が小さい方が太いです）のケー�
 > [!TIP]
 > ドングル構成のファームウェアビルドやカスタマイズは、[zmk-config-mtk64](https://github.com/mentako-ya/zmk-config-mtk64) の **[`right_left_dongle_rev4`](https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_dongle_rev4)** ブランチをご使用ください。
 
-### Rev3用ファームウェアについて
+---
 
-> [!NOTE]
-> mtk64ebt Rev3用ファームウェアは、本リポジトリの [`firmware/rev3/`](firmware/rev3/) ディレクトリ、または [rev3 ブランチ](https://github.com/mentako-ya/mtk64ebt/tree/rev3#readme) を参照してください。
+### Rev3用ファームウェア一覧
+
+Rev3 用のファームウェアも Rev4 と同様にブランチが一本化され、直接接続用（4構成）とドングル接続用（5構成）の計 9 種類のパッケージを提供しています。
+本リポジトリの [`firmware/rev3/`](firmware/rev3/) ディレクトリより最新版をダウンロードいただけます。
+
+#### 1. Bluetooth 接続（BLE Split / ドングル不要）構成【ブランチ: [`right_left_rev3`](https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_rev3)】
+
+ドングルを使わず、右手（Central）と PC を Bluetooth でペアリングし、左手・フットスイッチとも安定した BLE Split 通信を行う標準構成です。
+
+| No | 構成名 | パッケージ名 (ZIP) | 含まれるファームウェア (.uf2) |
+| :--- | :--- | :--- | :--- |
+| 1 | **左右構成（右ボール/左エンコーダー）** | [mtk64ebt_Right_Left.zip](firmware/rev3/mtk64ebt_Right_Left.zip) | `mtk64_R.uf2`, `mtk64_L.uf2`, `settings_reset.uf2` |
+| 2 | **左右構成（左ボール/右エンコーダー）** | [mtk64ebt_Right_Left_leftball.zip](firmware/rev3/mtk64ebt_Right_Left_leftball.zip) | `mtk64_R_leftball.uf2`, `mtk64_L_leftball.uf2`, `settings_reset.uf2` |
+| 3 | **左右＋フットスイッチ（右ボール/左エンコーダー）** | [mtk64ebt_Right_Left_Foot.zip](firmware/rev3/mtk64ebt_Right_Left_Foot.zip) | `mtk64_R.uf2`, `mtk64_L.uf2`, `mtk64_FOOT.uf2`, `settings_reset.uf2` |
+| 4 | **左右＋フットスイッチ（左ボール/右エンコーダー）** | [mtk64ebt_Right_Left_Foot_leftball.zip](firmware/rev3/mtk64ebt_Right_Left_Foot_leftball.zip) | `mtk64_R_leftball.uf2`, `mtk64_L_leftball.uf2`, `mtk64_FOOT.uf2`, `settings_reset.uf2` |
+
+> [!TIP]
+> Rev3 直接接続用のファームウェアビルドやカスタマイズは、[zmk-config-mtk64](https://github.com/mentako-ya/zmk-config-mtk64) の **[`right_left_rev3`](https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_rev3)** ブランチをご使用ください。
+
+---
+
+#### 2. ドングル接続（1000Hz ESB超低遅延）構成【ブランチ: [`right_left_dongle_rev3`](https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_dongle_rev3)】
+
+専用 USB ドングルを Central 親機とし、左右手・フットスイッチを 1000Hz ポーリングの超低遅延 Nordic ESB プロトコルで通信させるハイパフォーマンス構成です。
+
+| No | 構成名 | パッケージ名 (ZIP) | 含まれるファームウェア (.uf2) |
+| :--- | :--- | :--- | :--- |
+| 1 | **左右＋ドングルOLED＋フット（右ボール/左エンコーダー）** | [mtk64ebt_Right_Left_Dongle_disp_foot.zip](firmware/rev3/mtk64ebt_Right_Left_Dongle_disp_foot.zip) | `mtk64_DONGLE_display.uf2`, `mtk64_R_dongle.uf2`, `mtk64_L_dongle.uf2`, `mtk64_FOOT.uf2`, `settings_reset.uf2` |
+| 2 | **左右＋ドングルOLED（右ボール/左エンコーダー）** | [mtk64ebt_Right_Left_Dongle_display.zip](firmware/rev3/mtk64ebt_Right_Left_Dongle_display.zip) | `mtk64_DONGLE_display.uf2`, `mtk64_R_dongle.uf2`, `mtk64_L_dongle.uf2`, `settings_reset.uf2` |
+| 3 | **左右＋ドングルOLED（左ボール/右エンコーダー）** | [mtk64ebt_Right_Left_Dongle_disp_leftball.zip](firmware/rev3/mtk64ebt_Right_Left_Dongle_disp_leftball.zip) | `mtk64_DONGLE_display.uf2`, `mtk64_R_leftball.uf2`, `mtk64_L_leftball.uf2`, `settings_reset.uf2` |
+| 4 | **左右＋ドングル（画面なし）＋フット（右ボール/左エンコーダー）** | [mtk64ebt_Right_Left_Dongle_foot.zip](firmware/rev3/mtk64ebt_Right_Left_Dongle_foot.zip) | `mtk64_DONGLE.uf2`, `mtk64_R_dongle.uf2`, `mtk64_L_dongle.uf2`, `mtk64_FOOT.uf2`, `settings_reset.uf2` |
+| 5 | **左右＋ドングル（画面なし）（右ボール/左エンコーダー）** | [mtk64ebt_Right_Left_Dongle.zip](firmware/rev3/mtk64ebt_Right_Left_Dongle.zip) | `mtk64_DONGLE.uf2`, `mtk64_R_dongle.uf2`, `mtk64_L_dongle.uf2`, `settings_reset.uf2` |
+
+> [!TIP]
+> Rev3 ドングル構成のファームウェアビルドやカスタマイズは、[zmk-config-mtk64](https://github.com/mentako-ya/zmk-config-mtk64) の **[`right_left_dongle_rev3`](https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_dongle_rev3)** ブランチをご使用ください。
 
 ### ファームウェア書き込み手順
 
@@ -450,15 +487,29 @@ LEDの色と接続状態についての詳細は [zmk-rgbled-widget](https://git
 
 ## ファームウェアのブランチ構成について
 
-[zmk-config-mtk64](https://github.com/mentako-ya/zmk-config-mtk64) リポジトリでは、接続方式に応じてブランチを分離して最適化・ビルドしています。
+[zmk-config-mtk64](https://github.com/mentako-ya/zmk-config-mtk64) リポジトリでは、ハードウェアリビジョン（Rev4 / Rev3）および接続方式（直接接続 / ドングル接続）に応じてブランチを最適化・提供しています。
 
-* **Bluetooth 接続（BLE Split / ドングル不要）専用【デフォルトブランチ: [`right_left_rev4`](https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_rev4)】**:
-  * ドングル不要で PC と左右キーボードを Bluetooth ペアリングする標準構成です。外出先やノート PC で手軽に使用できます。
-* **ドングル接続（1000Hz ESB超低遅延）専用【ブランチ: [`right_left_dongle_rev4`](https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_dongle_rev4)】**:
-  * 専用 USB ドングルを親機とし、左右・フットスイッチを 1000Hz ポーリングの超低遅延 Nordic ESB プロトコルで通信させるハイパフォーマンス構成です。
-  * ドングル（OLEDあり/なし）、フットスイッチ併用、左手ボール構成など 5 つのドングル構成に対応しています。
-* **Rev3（旧版）**:
-  * 各構成ごとに `_rev3` サフィックスを付与したブランチ（例: [`right_left_rev3`](https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_rev3)）にて維持されています。
+### ブランチ一覧マトリクス
+
+| ハードウェア | 接続方式 | ブランチ名 | 説明 |
+| :--- | :--- | :--- | :--- |
+| **Rev4（PAW3222）** | **Bluetooth 直接接続** | [`right_left_rev4`](https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_rev4)（デフォルト） | ドングル不要で PC と左右を Bluetooth ペアリングする標準構成（全4パッケージ一括ビルド） |
+| **Rev4（PAW3222）** | **1000Hz ドングル接続** | [`right_left_dongle_rev4`](https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_dongle_rev4) | 専用 USB ドングル＋Nordic ESB 超低遅延（1000Hz）構成（全5パッケージ一括ビルド） |
+| **Rev3（PMW3610）** | **Bluetooth 直接接続** | [`right_left_rev3`](https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_rev3) | ドングル不要で PC と左右を Bluetooth ペアリングする標準構成（全4パッケージ一括ビルド） |
+| **Rev3（PMW3610）** | **1000Hz ドングル接続** | [`right_left_dongle_rev3`](https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_dongle_rev3) | 専用 USB ドングル＋Nordic ESB 超低遅延（1000Hz）構成（全5パッケージ一括ビルド） |
+
+### Rev3 ブランチ構成の大幅アップデート（ハードウェア構成別ブランチの集約・一本化）
+
+従来、Rev3 のファームウェアリポジトリはハードウェア構成ごと（直接接続通常、直接接続フット、ドングル通常、ドングルOLED、ドングルOLEDフット、左ボールなど）に 8 つ以上の個別ブランチに分かれており、キーマップを変更する際も目的の構成ブランチを個別に探して編集する必要がありました。
+
+今回のファームウェア更新に伴い、Rev4 と同様に **「Bluetooth 直接接続（[`right_left_rev3`](https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_rev3)）」** と **「ドングル接続（[`right_left_dongle_rev3`](https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_dongle_rev3)）」** の **2 つの統合ブランチへ完全集約・一本化** されました。
+
+* **マトリクス一括ビルドの導入**:
+  GitHub Actions のマトリクスビルドを採用したことで、1 つのブランチからすべてのハードウェアバリエーション（標準、左ボール、フットスイッチ、OLEDあり/なし等）が一括で自動ビルドされます。
+* **キーマップ変更・メンテナンスの劇的な簡素化**:
+  キーマップ（`config/mtk64.keymap`）を 1 箇所編集してコミットするだけで、その接続方式に対応する全構成のファームウェアが一括で再生成されます。構成ごとに別ブランチへ切り替えて同じキーマップ変更を繰り返す必要がなくなりました。
+* **最新機能の全面バックポート**:
+  Rev3 でも Rev4 と同等の機能（PMW3610 の 15 段階 CPI リアルタイム制御、スクロール上下反転、Auto Mouse Layer、NVS 不揮発性保存、ZMK Studio 完全対応、ドングル OLED 連携）が利用可能です。
 
 ## キーマッピング変更
 
@@ -514,7 +565,13 @@ ZMK Studioを使用することで、ファームウェア書き換えなしで�
 
 <img src="image/keymap_editor/ke_008.png" width="60%" style="border: 1px solid;"/>
 
-9. キーマップエディター画面でフォークしたリポジトリと作業ブランチ（直接接続なら `right_left_rev4`、ドングル構成なら `right_left_dongle_rev4`）を選択します。
+9. キーマップエディター画面でフォークしたリポジトリと作業ブランチを選択します。
+   * **Rev4 をお使いの場合**:
+     * 直接接続（ドングル不要）: [`right_left_rev4`](https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_rev4)
+     * ドングル接続（1000Hz ESB）: [`right_left_dongle_rev4`](https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_dongle_rev4)
+   * **Rev3 をお使いの場合**:
+     * 直接接続（ドングル不要）: [`right_left_rev3`](https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_rev3)
+     * ドングル接続（1000Hz ESB）: [`right_left_dongle_rev3`](https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_dongle_rev3)
 
 <img src="image/keymap_editor/ke_009.png" width="60%" style="border: 1px solid;"/>
 
@@ -536,7 +593,7 @@ ZMK Studioを使用することで、ファームウェア書き換えなしで�
 14. [ファームウェア書き込み手順](#ファームウェア書き込み手順)に従って書き込みます。
 
 #### 左ボール右エンコーダー構成のキーマップ対応について
-* ドングル構成用の **`right_left_dongle_rev4` ブランチ** では、全ドングル構成（通常ドングル、左ボール構成、フットスイッチ構成など）が一括ビルドされます。
+* ドングル構成用の **[`right_left_dongle_rev4`](https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_dongle_rev4)** ブランチおよび **[`right_left_dongle_rev3`](https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_dongle_rev3)** ブランチでは、全ドングル構成（通常ドングル、左ボール構成、フットスイッチ構成など）が一括ビルドされます。
 * `config/mtk64.keymap` の変更は、通常の右手ボール構成だけでなく左ボール構成（`mtk64ebt_Right_Left_Dongle_disp_leftball.zip` 等）にも自動的に反映されます。
 * 左ボール構成を使用する場合、左手でトラックボールを操作しながら右手でクリック操作を行えるよう標準マッピング（レイヤー1・2・6にマウスボタン配置）されています。左手側にクリックキーを配置したい場合も、`mtk64.keymap` の左手側キーにお好みのマウスキー（`&mkp MB1` 等）を割り当てるだけで自由に変更できます。
 
@@ -553,9 +610,9 @@ ZMK Studioを使用することで、ファームウェア書き換えなしで�
 * **Layer 4** と **Layer 5** は予備レイヤーです。これらのレイヤーには任意のキーコードを設定することができます。ユーザーの好みに応じてカスタマイズが可能です。
 * **Layer 6 (Auto Mouse / AML)** は自動マウスレイヤーです。トラックボールを操作すると自動的にこのレイヤーに切り替わり、マウスキー操作が可能になります。約5秒間操作がないと自動的に元のレイヤーに戻ります（`&aml_tog` で機能全体の有効/無効を切り替え可能）。
 
-### トラックボール機能のリアルタイム制御 (Rev4)
+### トラックボール機能のリアルタイム制御 (Rev4 / Rev3)
 
-Rev4 では、ソースコードを再ビルドすることなく、**キーボードのキー操作だけでリアルタイムにトラックボールの各種設定（CPI感度、Auto Mouse Layer、スクロール反転）を変更可能** です。
+Rev4 および Rev3 では、ソースコードを再ビルドすることなく、**キーボードのキー操作だけでリアルタイムにトラックボールの各種設定（CPI感度、Auto Mouse Layer、スクロール反転）を変更可能** です。
 
 各種設定キーは、**レイヤー 1（精密モード）の右手最右列に縦一列で集約**されています。各設定値は Xiao BLE 内部の不揮発性メモリ（NVS）に自動保存されるため、キーボードの電源を切ったりバッテリーを交換しても前回の設定がそのまま維持されます。
 
@@ -579,10 +636,12 @@ Rev4 では、ソースコードを再ビルドすることなく、**キーボ�
 * **`&aml_tog`（Auto Mouse Layer ON/OFF切替）**:
   * トラックボール操作時にレイヤー 6（自動マウスレイヤー）へ自動遷移する機能の**有効 / 無効**をトグルします。OFF にするとボールを動かしてもレイヤーが切り替わらず、純粋なカーソル移動のみが行われます。
 * **`&cpi_inc` / `&cpi_dec`（感度調整）**:
-  * トラックボールの解像度（CPI）を 1 段階ずつ調整します（全 16 段階: 608 〜 4826 CPI）。
+  * トラックボールの解像度（CPI）を 1 段階ずつリアルタイムに調整します。
   * **操作方法**: `&cpi_inc` キーで 1 ステップ増加（高速化）、`&cpi_dec` キーで 1 ステップ減少（低速化）。
-  * **16段階の調整範囲**:
+  * **Rev4（PAW3222）の調整範囲（全16段階）**:
     `608` $\leftrightarrow$ `790` $\leftrightarrow$ `1003` $\leftrightarrow$ `1216` $\leftrightarrow$ `1428` $\leftrightarrow$ `1611` $\leftrightarrow$ `1824` $\leftrightarrow$ `2036` $\leftrightarrow$ `2249` $\leftrightarrow$ `2462` $\leftrightarrow$ `2827` $\leftrightarrow$ `3222` $\leftrightarrow$ `3617` $\leftrightarrow$ `4012` $\leftrightarrow$ `4408` $\leftrightarrow$ `4826` CPI
+  * **Rev3（PMW3610）の調整範囲（全15段階）**:
+    `200` $\leftrightarrow$ `400` $\leftrightarrow$ `600` $\leftrightarrow$ `800` $\leftrightarrow$ `1000` $\leftrightarrow$ `1200` $\leftrightarrow$ `1400` $\leftrightarrow$ `1600` $\leftrightarrow$ `1800` $\leftrightarrow$ `2000` $\leftrightarrow$ `2200` $\leftrightarrow$ `2400` $\leftrightarrow$ `2600` $\leftrightarrow$ `2800` $\leftrightarrow$ `3200` CPI
 * **ドングル OLED 画面との連携**:
   * OLED ディスプレイ付きドングルを使用している場合、現在の CPI 値（例: `CPI:1600`）や、Automouse（`🎱(A)`）/ スクロール反転（`↕️`）アイコンの有効状態（下線表示）が画面上にリアルタイム連動します。
 
@@ -600,7 +659,7 @@ Rev4 では、ソースコードを再ビルドすることなく、**キーボ�
 
 #### 自動マウスレイヤー（Layer 6）の設定変更
 
-トラックボール操作時に自動的にマウスレイヤー（Layer 6）へ切り替わる動作は、[`config/mtk64.keymap`](https://github.com/mentako-ya/zmk-config-mtk64/blob/right_left_rev4/config/mtk64.keymap#L16-L18) で設定されています。
+トラックボール操作時に自動的にマウスレイヤー（Layer 6）へ切り替わる動作は、`config/mtk64.keymap`（[Rev4版](https://github.com/mentako-ya/zmk-config-mtk64/blob/right_left_rev4/config/mtk64.keymap#L16-L18) / [Rev3版](https://github.com/mentako-ya/zmk-config-mtk64/blob/right_left_rev3/config/mtk64.keymap#L16-L18)）で設定されています。
 
 ```dts
 &mkp_input_listener {
@@ -611,7 +670,7 @@ Rev4 では、ソースコードを再ビルドすることなく、**キーボ�
 * **第1引数 (`6`)**: 自動遷移先のマウスレイヤー番号（デフォルトは Layer 6）。
 * **第2引数 (`5000`)**: トラックボール操作を止めてから元のレイヤーに自動復帰するまでの時間（ミリ秒、`5000` = 5秒）。
 
-また、キー入力後にトラックボールが反応するまでのアイドル時間などは、[`config/boards/shields/mtk64/mtk64_trackball.dtsi`](https://github.com/mentako-ya/zmk-config-mtk64/blob/right_left_rev4/config/boards/shields/mtk64/mtk64_trackball.dtsi#L60-L65) で調整可能です：
+また、キー入力後にトラックボールが反応するまでのアイドル時間などは、`config/boards/shields/mtk64/mtk64_trackball.dtsi`（[Rev4版](https://github.com/mentako-ya/zmk-config-mtk64/blob/right_left_rev4/config/boards/shields/mtk64/mtk64_trackball.dtsi#L60-L65) / [Rev3版](https://github.com/mentako-ya/zmk-config-mtk64/blob/right_left_rev3/config/boards/shields/mtk64/mtk64_trackball.dtsi#L61-L66)）で調整可能です：
 
 ```dts
 zip_temp_layer: zip_temp_layer {
@@ -627,15 +686,25 @@ zip_temp_layer: zip_temp_layer {
 
 #### トラックボール感度（CPI）の初期値調整
 
-通常はキーボード右下の **`cpi_inc`** / **`cpi_dec`** キーで 16 段階にリアルタイム調整可能ですが、ファームウェア起動時のデフォルト初期値を変更したい場合は、[`config/boards/shields/mtk64/mtk64_trackball.dtsi`](https://github.com/mentako-ya/zmk-config-mtk64/blob/right_left_rev4/config/boards/shields/mtk64/mtk64_trackball.dtsi#L39) の `res-cpi` を編集します：
+通常はキーボード右下の **`cpi_inc`** / **`cpi_dec`** キーでリアルタイム調整可能ですが、ファームウェア起動時のデフォルト初期値を変更したい場合は、各ブランチの `config/boards/shields/mtk64/mtk64_trackball.dtsi` 内の `res-cpi` を編集します：
 
-```dts
-trackball: trackball@0 {
-    compatible = "pixart,paw32xx";
-    ...
-    res-cpi = <1558>; /* デフォルト初期CPI */
-};
-```
+* **Rev4（PAW3222）**: [`mtk64_trackball.dtsi (right_left_rev4)`](https://github.com/mentako-ya/zmk-config-mtk64/blob/right_left_rev4/config/boards/shields/mtk64/mtk64_trackball.dtsi#L39)
+  ```dts
+  trackball: trackball@0 {
+      compatible = "pixart,paw32xx";
+      ...
+      res-cpi = <1558>; /* デフォルト初期CPI (16段階) */
+  };
+  ```
+
+* **Rev3（PMW3610）**: [`mtk64_trackball.dtsi (right_left_rev3)`](https://github.com/mentako-ya/zmk-config-mtk64/blob/right_left_rev3/config/boards/shields/mtk64/mtk64_trackball.dtsi#L40)
+  ```dts
+  trackball: trackball@0 {
+      compatible = "pixart,pmw3610";
+      ...
+      res-cpi = <1000>; /* デフォルト初期CPI (15段階) */
+  };
+  ```
 
 
 ## ケースデータ
