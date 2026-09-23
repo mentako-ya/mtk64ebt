@@ -230,7 +230,7 @@ Rev3以前のPMW3610と比較して、より低消費電力で高感度と高ポ
 
 OLEDのピンヘッダ位置とXiaoBLEの端子位置を合わせてあるので、配線なしでピンヘッダで直付も可能です。
 
-注：リセットスイッチが押しづらいので工夫が必要です。
+注：リセットスイッチは押せないので、リセットする際はXiaoBLE背面のRST端子とGND端子を短絡してください。
 
 <img src="image/rev3/mtk64ebt_dongle_display.jpg" width="60%" style="border: 1px solid;"/><br>
 <img src="image/rev3/mtk64ebt_dongle_display_2.jpg" width="60%" style="border: 1px solid;"/><br>
@@ -369,7 +369,7 @@ Rev4 と Rev3 では、搭載されているトラックボールセンサーの
 | :--- | :--- | :--- |
 | **トラックボールセンサー** | **PixArt PAW3222** | **PixArt PMW3610** |
 | **CPI 調整範囲** | **16段階**（608 〜 4826 CPI） | **15段階**（200 〜 3200 CPI） |
-| **PC / 親機間通信** | **Bluetooth (BLE Split)** または<br>**Nordic ESB (1000Hz 超低遅延)** | **Bluetooth (BLE Split)** または<br>**Nordic ESB (1000Hz 超低遅延)** |
+| **PC / 親機間通信** | **Bluetooth (133Hz BLE Split)** または<br>**Nordic ESB (1000Hz 超低遅延)** | **Bluetooth (133Hz BLE Split)** または<br>**Nordic ESB (250Hz 超低遅延)** |
 | **リアルタイム設定制御** | CPI感度調整 / Auto Mouse Layer / スクロール反転 | CPI感度調整 / Auto Mouse Layer / スクロール反転 |
 | **設定の不揮発性保存 (NVS)** | 対応（電源OFF・電池交換後も保持） | 対応（電源OFF・電池交換後も保持） |
 | **ZMK Studio** | 完全対応（リアルタイムキーマップ変更） | 完全対応（リアルタイムキーマップ変更） |
@@ -441,9 +441,9 @@ Rev3 用のファームウェアも Rev4 と同様にブランチが一本化さ
 
 ---
 
-#### 2. ドングル接続（1000Hz ESB超低遅延）構成【ブランチ: [`right_left_dongle_rev3`](https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_dongle_rev3)】
+#### 2. ドングル接続（250Hz ESB超低遅延）構成【ブランチ: [`right_left_dongle_rev3`](https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_dongle_rev3)】
 
-専用 USB ドングルを Central 親機とし、左右手・フットスイッチを 1000Hz ポーリングの超低遅延 Nordic ESB プロトコルで通信させるハイパフォーマンス構成です。
+専用 USB ドングルを Central 親機とし、左右手・フットスイッチを 250Hz ポーリングの超低遅延 Nordic ESB プロトコルで通信させるハイパフォーマンス構成です。
 
 | No | 構成名 | パッケージ名 (ZIP) | 含まれるファームウェア (.uf2) |
 | :--- | :--- | :--- | :--- |
@@ -571,7 +571,7 @@ ZMK Studioを使用することで、ファームウェア書き換えなしで�
      * ドングル接続（1000Hz ESB）: [`right_left_dongle_rev4`](https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_dongle_rev4)
    * **Rev3 をお使いの場合**:
      * 直接接続（ドングル不要）: [`right_left_rev3`](https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_rev3)
-     * ドングル接続（1000Hz ESB）: [`right_left_dongle_rev3`](https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_dongle_rev3)
+     * ドングル接続（250Hz ESB）: [`right_left_dongle_rev3`](https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_dongle_rev3)
 
 <img src="image/keymap_editor/ke_009.png" width="60%" style="border: 1px solid;"/>
 
