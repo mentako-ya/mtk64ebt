@@ -496,7 +496,7 @@ LEDの色と接続状態についての詳細は [zmk-rgbled-widget](https://git
 | **Rev4（PAW3222）** | **Bluetooth 直接接続** | [`right_left_rev4`](https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_rev4)（デフォルト） | ドングル不要で PC と左右を Bluetooth ペアリングする標準構成（全4パッケージ一括ビルド） |
 | **Rev4（PAW3222）** | **1000Hz ドングル接続** | [`right_left_dongle_rev4`](https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_dongle_rev4) | 専用 USB ドングル＋Nordic ESB 超低遅延（1000Hz）構成（全5パッケージ一括ビルド） |
 | **Rev3（PMW3610）** | **Bluetooth 直接接続** | [`right_left_rev3`](https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_rev3) | ドングル不要で PC と左右を Bluetooth ペアリングする標準構成（全4パッケージ一括ビルド） |
-| **Rev3（PMW3610）** | **1000Hz ドングル接続** | [`right_left_dongle_rev3`](https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_dongle_rev3) | 専用 USB ドングル＋Nordic ESB 超低遅延（1000Hz）構成（全5パッケージ一括ビルド） |
+| **Rev3（PMW3610）** | **250Hz ドングル接続** | [`right_left_dongle_rev3`](https://github.com/mentako-ya/zmk-config-mtk64/tree/right_left_dongle_rev3) | 専用 USB ドングル＋Nordic ESB 超低遅延（250Hz）構成（全5パッケージ一括ビルド） |
 
 ### Rev3 ブランチ構成の大幅アップデート（ハードウェア構成別ブランチの集約・一本化）
 
